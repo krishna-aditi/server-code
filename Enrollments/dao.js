@@ -23,13 +23,14 @@ import model from "./model.js";
 // Find enrolled courses given userID 
 export async function findCoursesForUser(userId) {
     const enrollments = await model.find({ user: userId }).populate("course");
-    return enrollments.map((enrollment) => enrollment.course);
+    // return enrollments.map((enrollment) => enrollment.course);
+    return enrollments.filter((e) => e.user !== null).map((enrollment) => enrollment.course);
 }
    
 // Find users enrolled given courseID
 export async function findUsersForCourse(courseId) {
     const enrollments = await model.find({ course: courseId }).populate("user");
-    return enrollments.map((enrollment) => enrollment.user);
+    return enrollments.filter((e) => e.course !== null).map((enrollment) => enrollment.user);
 }
 // export function enrollUserInCourse(user, course) {
 //     const newEnrollment = { user, course, _id: `${user}-${course}` };
